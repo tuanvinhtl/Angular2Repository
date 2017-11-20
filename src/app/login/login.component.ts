@@ -10,12 +10,9 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
     let body = document.getElementsByTagName('body')[0];
-
     body.classList.remove("nav-md");
     body.classList.add("login");
-
   }
 
 }
