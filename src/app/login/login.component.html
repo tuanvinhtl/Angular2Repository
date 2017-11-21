@@ -5,16 +5,18 @@
   <div class="login_wrapper">
     <div class="animate form login_form">
       <section class="login_content">
-        <form>
+        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate>
           <h1>Trang Đăng Nhập</h1>
-          <div>
-            <input type="text" class="form-control" placeholder="Username" required="" />
+          <div [ngClass]="{'has-error':f.submitted && !username.valid}">
+            <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+            <div *ngIf="f.submitted && !username.valid" class ="help-block">Tên đăng nhập yêu cầu</div>
           </div>
           <div>
-            <input type="password" class="form-control" placeholder="Password" required="" />
+            <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class ="help-block">Mật khẩu yêu cầu</div>
           </div>
-          <div>
-            <a class="btn btn-default submit" routerLink="/main" >Đăng nhập</a>
+          <div [ngClass]="{'has-error':f.submitted && !password.valid}">
+            <button [disabled]="loading" class="btn btn-default submit" >Đăng nhập</button>
             <a class="reset_pass" href="#">Bạn mất mật khẩu?</a>
           </div>
 
