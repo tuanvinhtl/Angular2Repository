@@ -11,11 +11,14 @@ import { MessageContstants } from '../common/message.constants';
 export class DataService {
 
   private headers: Headers;
-  constructor(private _utilityService :UtilityService, private _notificationService : NotificationService,  private _http: Http, private _router: Router, private _authenService: AuthenService) { }
+  constructor(private _utilityService :UtilityService, private _notificationService : NotificationService,  private _http: Http, private _router: Router, private _authenService: AuthenService) {
+    this.headers = new Headers();
+    this.headers.append('Content-Type', 'application/json');
+   }
 
   get(uri: string) {
     this.headers.delete("Authorization");
-    this.headers.append("Authorization", "bearer" + this._authenService.getLoggedInUser().access_token)
+    this.headers.append("Authorization", "Bearer" + this._authenService.getLoggedInUser().access_token)
     return this._http.get(SystemContants.BASE_API + uri, { headers: this.headers }).map(this.extractData);
   }
   post(uri: string, data?: any) {
@@ -33,6 +36,7 @@ export class DataService {
     this.headers.append("Authorization", "bearer" + this._authenService.getLoggedInUser().access_token)
     return this._http.delete(SystemContants.BASE_API + uri + "?" + key + "=" + id, { headers: this.headers }).map(this.extractData);
   }
+
   postFile(uri: string, data?: any) {
     let newHeader = new Headers();
     newHeader.append("Authorization", "bearer" + this._authenService.getLoggedInUser().access_token);
