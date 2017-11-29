@@ -40,7 +40,14 @@
             <td>{{product.Status}}</td>
           </tr>
         </tbody>
+        
       </table>
+      <div class="row">
+        <div class="col-xs-12 col-12">
+          <pagination [boundaryLinks]="true" [totalItems]="totalRow" (pageChanged)="pageChanged($event)" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
+                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+          </div>
+      </div>
 
     </div>
   </div>
