@@ -1,15 +1,16 @@
 import { UrlConstants } from './../../core/common/url.constants';
 import { DataService } from './../../core/services/data.service';
-import { Component, OnInit } from '@angular/core';
-import { SystemContants } from '../../core/common/system.constants';
-
-
+import { Component, OnInit,ViewChild } from '@angular/core';
+import { SystemContants } from '../../core/common/system.constants'
+import { ModalDirective } from 'ngx-bootstrap/modal';
+ 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+  @ViewChild('childModal') childModal: ModalDirective;
 
   constructor(private dataService: DataService) { }
 
@@ -30,7 +31,17 @@ export class ProductsComponent implements OnInit {
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
   }
- 
+  showChildModal(): void {
+    this.childModal.show();
+  }
+ showModel(){
+   console.log("ádasdasd")
+ }
+
+  hideChildModal(): void {
+    this.childModal.hide();
+  }
+
   pageChanged(event: any): void {
     this.pageIndex=(event.page);
 

@@ -23,6 +23,18 @@ export class AppComponent implements AfterViewChecked, OnInit {
       s.id = "customJS";
       this.elementRef.nativeElement.appendChild(s);
     }
+    var esxcheck=document.getElementById("switcheryJS")
+    if(esxcheck != null){
+      this.elementRef.nativeElement.removeChild(esxcheck);
+    }
+
+    else{
+      var d = document.createElement("script");
+      d.type = "text/javascript";
+      d.src = "../assets/js/switchery.js";
+      d.id = "switcheryJS";
+      this.elementRef.nativeElement.appendChild(d);
+    }
 
   }
 

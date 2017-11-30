@@ -1,6 +1,6 @@
 import { NotificationService } from './../core/services/notification.service';
 import { HttpModule } from '@angular/http';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 import { UtilityService } from './../core/services/utility.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,6 @@ import {FormsModule} from '@angular/forms';
     CommonModule,
     RouterModule.forChild(mainRoutes),
     HttpModule,
-    PaginationModule.forRoot(),
     FormsModule
   ],
   declarations: [MainComponent],

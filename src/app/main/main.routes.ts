@@ -6,7 +6,8 @@ export const mainRoutes: Routes = [
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', loadChildren: './home/home.module#HomeModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule' },
-            { path: 'product', loadChildren: './products/products.module#ProductsModule' }
+            { path: 'product', loadChildren: './products/products.module#ProductsModule' },
+            { path: 'productCategory', loadChildren: './product-categories/product-categories.module#ProductCategoriesModule' }
         ]
     }
 

@@ -1,26 +1,38 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Bảng Sản Phẩm <small>Tổng quan sản phẩm</small></h2>
+      <h2>Bảng Sản Phẩm
+        <small>Tổng quan sản phẩm</small>
+      </h2>
       <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+        <li>
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <i class="fa fa-wrench"></i>
+          </a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Settings 1</a>
+            <li>
+              <a href="#">Settings 1</a>
             </li>
-            <li><a href="#">Settings 2</a>
+            <li>
+              <a href="#">Settings 2</a>
             </li>
           </ul>
         </li>
-        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        <li>
+          <a class="close-link">
+            <i class="fa fa-close"></i>
+          </a>
         </li>
       </ul>
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-
+      <button type="button" class="btn btn-round btn btn-primary btn pull-right" (click)="showChildModal()">Thêm Mới</button>
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -32,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor= "let product of data" >
+          <tr *ngFor="let product of data">
             <th scope="row">{{product.ID}}</th>
             <td>{{product.Name}}</td>
             <td>{{product.Price}}</td>
@@ -40,15 +52,188 @@
             <td>{{product.Status}}</td>
           </tr>
         </tbody>
-        
       </table>
+
       <div class="row">
         <div class="col-xs-12 col-12">
-          <pagination [boundaryLinks]="true" [totalItems]="totalRow" (pageChanged)="pageChanged($event)" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize" class="pagination-sm"
-                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-          </div>
+          <pagination [boundaryLinks]="true" [totalItems]="totalRow" (pageChanged)="pageChanged($event)" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize"
+            class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+<!--this is embed of the model-->\
 
+
+
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="hideChildModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_content">
+              <br />
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                <div>
+                  <tabset>
+                    <tab heading="Thông tin cơ bản" id="tab1">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tên SP
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Alias
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn danh mục</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="form-control">
+                            <option>Choose option</option>
+                            <option>Option one</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                            <option>Option four</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Ảnh sản phẩm
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Giá
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Số lượng
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Trạng thái
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12">Switch</label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="">
+                              <label>
+                                <input type="checkbox" class="js-switch" checked /> Checked
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                    </tab>
+                    <!--thông tin thêm-->
+
+                    <tab heading="Thông tin thên">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Thêm ảnh
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Giảm giá
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Khuyến mãi
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nội dung
+                            <span class="required">*</span>
+                          </label>
+                          <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          </div>
+                        </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Bảo hành
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tag sản phẩm
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Mô tả thêm
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                    </tab>
+                  </tabset>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button class="btn btn-primary" type="button">Hủy</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
