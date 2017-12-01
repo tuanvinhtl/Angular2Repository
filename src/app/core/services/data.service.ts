@@ -3,18 +3,18 @@ import { Http, Response, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { SystemContants } from '../common/system.constants';
 import { AuthenService } from './authen.service';
-import {Observable} from 'rxjs/Observable';
-import {NotificationService}from './notification.service';
-import {UtilityService} from './utility.service';
+import { Observable } from 'rxjs/Observable';
+import { NotificationService } from './notification.service';
+import { UtilityService } from './utility.service';
 import { MessageContstants } from '../common/message.constants';
 @Injectable()
 export class DataService {
 
   private headers: Headers;
-  constructor(private _utilityService :UtilityService, private _notificationService : NotificationService,  private _http: Http, private _router: Router, private _authenService: AuthenService) {
+  constructor(private _utilityService: UtilityService, private _notificationService: NotificationService, private _http: Http, private _router: Router, private _authenService: AuthenService) {
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
-   }
+  }
 
   get(uri: string) {
     this.headers.delete("Authorization");
@@ -33,8 +33,9 @@ export class DataService {
   }
   delete(uri: string, key: string, id: string) {
     this.headers.delete("Authorization");
-    this.headers.append("Authorization", "bearer" + this._authenService.getLoggedInUser().access_token)
-    return this._http.delete(SystemContants.BASE_API + uri + "?" + key + "=" + id, { headers: this.headers }).map(this.extractData);
+    this.headers.append("Authorization", "Bearer " + this._authenService.getLoggedInUser().access_token);
+    return this._http.delete(SystemContants.BASE_API + uri + "?" + key + "=" + id, { headers: this.headers })
+      .map(this.extractData);
   }
 
   postFile(uri: string, data?: any) {
