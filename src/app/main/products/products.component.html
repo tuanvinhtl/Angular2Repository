@@ -32,7 +32,7 @@
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-      <button type="button" class="btn btn-round btn btn-primary btn pull-right" (click)="showChildModal()">Thêm Mới</button>
+      <button type="button" class="btn btn-round btn btn-primary btn pull-right" (click)="showChildModal() ; formModel.reset()">Thêm Mới</button>
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -52,8 +52,8 @@
             <td>{{product.Quantity}}</td>
             <td>{{product.Status}}</td>
             <td>
-                <button type="button" class="btn btn-round btn btn-primary btn-sm" (click)="editEntity(product.ID)">Sửa</button>
-                <button type="button" class="btn btn-round btn btn-danger btn-sm" (click)="deteleEntity(product.ID)">Xóa</button>
+              <button type="button" class="btn btn-round btn btn-primary btn-sm" (click)="editEntity(product.ID)">Sửa</button>
+              <button type="button" class="btn btn-round btn btn-danger btn-sm" (click)="deteleEntity(product.ID)">Xóa</button>
             </td>
           </tr>
         </tbody>
@@ -73,7 +73,7 @@
 
 
 
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -87,7 +87,7 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_content">
               <br />
-              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" novalidate #form="ngForm" (ngSubmit)="onSubmit()">
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" novalidate #formModel="ngForm" (ngSubmit)="onSubmit()">
                 <div>
                   <tabset>
                     <!--thông tin basic-->
@@ -97,7 +97,20 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="name" required="required" name="name" [(ngModel)]="model.Name" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="name" required name="name" minlength=4 maxlength=100 [(ngModel)]="model.Name" class="form-control col-md-7 col-xs-12"
+                            #name="ngModel">
+                          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                            <div *ngIf="name.errors.required">
+                              Tên phải được nhập
+                            </div>
+                            <div *ngIf="name.errors.minlength">
+                              Tên phải tối thiểu là 4 ký tự
+                            </div>
+                            <div *ngIf="name.errors.maxlenght">
+                              Tên phải dưới 100 ký tự
+                            </div>
+
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -105,15 +118,26 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="alias" required="required" name="alias" [(ngModel)]="model.Alias" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="alias" required name="alias" [(ngModel)]="model.Alias" minlength=4 class="form-control col-md-7 col-xs-12"
+                            #alias="ngModel">
+                          <div *ngIf="alias.invalid && (alias.dirty || alias.touched)" class="alert alert-danger">
+                            <div *ngIf="alias.errors.required">
+                              Alias phải được nhập
+                            </div>
+                            <div *ngIf="alias.errors.minlength">
+                              Alias phải tối thiểu là 4 ký tự
+                            </div>
+
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn danh mục</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <select class="form-control" [(ngModel)]="model.CategoryID"  name="categoryId">
-                              <option *ngFor="let item of productCategories" [ngValue]="item.ID">{{item.Name}}</option>
+                          <select class="form-control" [(ngModel)]="model.CategoryID" name="categoryId" #categoryId="ngModel" required>
+                            <option *ngFor="let item of productCategories" [ngValue]="item.ID">{{item.Name}}</option>
                           </select>
+
                         </div>
                       </div>
                       <div class="form-group">
@@ -121,7 +145,16 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="image" required="required" name="image" [(ngModel)]="model.Images" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="image" required name="image" [(ngModel)]="model.Images" minlength=2 class="form-control col-md-7 col-xs-12"
+                            #image="ngModel">
+                          <div *ngIf="image.invalid && (image.dirty || image.touched)" class="alert alert-danger">
+                            <div *ngIf="image.errors.required">
+                              Không thấy đường dẫn ảnh
+                            </div>
+                            <div *ngIf="image.errors.minlength">
+                              Tên phải tối thiểu là 2 ký tự
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -129,7 +162,18 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="price" required="required" name="price" [(ngModel)]="model.Price" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="price" required name="price" [(ngModel)]="model.Price" class="form-control col-md-7 col-xs-12" #price="ngModel">
+                          <div *ngIf="price.invalid && (price.dirty || price.touched)" class="alert alert-danger">
+                            <div *ngIf="price.errors.required">
+                              Giá phải được nhập
+                            </div>
+                            <div *ngIf="price.errors.minlength">
+                              Giá phải tối thiểu là 4 ký tự
+                            </div>
+                            <div *ngIf="price.errors.maxlenght">
+                              Giá phải dưới 100 ký tự
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
@@ -137,18 +181,36 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="quantity" required="required" name="quantity" [(ngModel)]="model.Quantity" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="quantity" required name="quantity" [(ngModel)]="model.Quantity" maxlength=500 class="form-control col-md-7 col-xs-12"
+                            #quantity="ngModel">
+                          <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="alert alert-danger">
+                            <div *ngIf="quantity.errors.required">
+                              Số lượng phải được nhập
+                            </div>
+
+                            <div *ngIf="quantity.errors.maxlenght">
+                              Số lượng phải dưới 500
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Trạng thái
-                          <span class="required">*</span>
-                        </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="status" required="required" name="status" [(ngModel)]="model.Status" class="form-control col-md-7 col-xs-12">
-                        </div>
+                          <div class="[ form-group ] col-md-9 col-sm-9 col-xs-12" >
+                              <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" autocomplete="off" />
+                              <div class="[ btn-group ] col-md-9 col-sm-9 col-xs-12">
+                                  <label for="fancy-checkbox-success" class="[ btn btn-success ]">
+                                      <span class="[ glyphicon glyphicon-ok ]"></span>
+                                      <span> </span>
+                                  </label>
+                                  <label for="fancy-checkbox-success" class="[ btn btn-default active ]">
+                                      Success Checkbox
+                                  </label>
+                              </div>
+                          </div>
                       </div>
                       
+
+
                     </tab>
                     <!--thông tin thêm-->
 
@@ -158,7 +220,7 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="moreImages" required="required" name="moreImages" [(ngModel)]="model.MoreImages" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="moreImages" name="moreImages" [(ngModel)]="model.MoreImages" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -166,7 +228,7 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="originalPrice" required="required" name="originalPrice" [(ngModel)]="model.OriginalPrice" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="originalPrice" name="originalPrice" [(ngModel)]="model.OriginalPrice" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -174,23 +236,23 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="promotion" required="required" name="promotion" [(ngModel)]="model.Promotion" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="promotion" name="promotion" [(ngModel)]="model.Promotion" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nội dung
-                            <span class="required">*</span>
-                          </label>
-                          <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" id="content" required="required" name="content" [(ngModel)]="model.Content" class="form-control col-md-7 col-xs-12">
-                          </div>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nội dung
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="text" id="content" name="content" [(ngModel)]="model.Content" class="form-control col-md-7 col-xs-12">
                         </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Bảo hành
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="waranty" required="required" name="waranty" [(ngModel)]="model.Waranty" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="waranty" name="waranty" [(ngModel)]="model.Waranty" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -198,7 +260,7 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="tag" required="required" name="tag" [(ngModel)]="model.Tag" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="tag" name="tag" [(ngModel)]="model.Tag" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -206,7 +268,7 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="descryption" required="required" name="descryption" [(ngModel)]="model.Descryption" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="descryption" name="descryption" [(ngModel)]="model.Descryption" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                     </tab>
@@ -217,7 +279,7 @@
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button class="btn btn-primary" type="button">Hủy</button>
                     <button class="btn btn-primary" type="reset">Reset</button>
-                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                    <button type="submit" class="btn btn-success" [disabled]="formModel.invalid">Cập nhật</button>
                   </div>
                 </div>
 

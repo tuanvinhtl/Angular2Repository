@@ -44,9 +44,8 @@ export class ProductsComponent implements OnInit {
   }
 
   deteleEntity(id: string) {
-
     this._notificationService.printConfirmationDialog(MessageContstants.CONFIRM_DELETE_MSG, () => {
-      this.dataService.delete("/api/product/delete", "id",id).subscribe((response: any) => {
+      this.dataService.delete("/api/product/detele?", "id", id).subscribe((response: any) => {
         this._notificationService.printSuccessMessage(MessageContstants.DELETED_OK_MSG);
         this.listProduct();
       }, error => this.dataService.handleError(error));
@@ -110,7 +109,7 @@ export class ProductsComponent implements OnInit {
         this._notificationService.printSuccessMessage(MessageContstants.UPDATED_OK_MSG + " " + response.Name)
       }, error => this.dataService.handleError(error));
     }
-    this.model = {}
+    
   }
 
 }

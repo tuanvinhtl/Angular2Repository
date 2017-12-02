@@ -34,7 +34,7 @@ export class DataService {
   delete(uri: string, key: string, id: string) {
     this.headers.delete("Authorization");
     this.headers.append("Authorization", "Bearer " + this._authenService.getLoggedInUser().access_token);
-    return this._http.delete(SystemContants.BASE_API + uri + "?" + key + "=" + id, { headers: this.headers })
+    return this._http.delete(SystemContants.BASE_API + uri  + key + "=" + id, { headers: this.headers })
       .map(this.extractData);
   }
 
