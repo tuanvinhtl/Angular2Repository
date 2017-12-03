@@ -1,3 +1,4 @@
+import { TityMceComponent } from './../../shared/tity-mce/tity-mce.component';
 import { ModalModule,PaginationModule,TabsModule  } from 'ngx-bootstrap';
 import { Routes,RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -18,6 +19,6 @@ export const productRoute: Routes = [
     ModalModule,
     TabsModule
   ],
-  declarations: [ProductsComponent]
+  declarations: [ProductsComponent,TityMceComponent]
 })
 export class ProductsModule { }

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AuthenGuard } from './core/guards/authen.guard';
 import { ModalModule,TabsModule,PaginationModule } from 'ngx-bootstrap';
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -15,7 +16,8 @@ import { ModalModule,TabsModule,PaginationModule } from 'ngx-bootstrap';
     RouterModule.forRoot(appRoutes),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+
   ],
   providers: [AuthenGuard],
   bootstrap: [AppComponent]

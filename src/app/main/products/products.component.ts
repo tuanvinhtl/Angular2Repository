@@ -3,18 +3,22 @@ import { MessageContstants } from './../../core/common/message.constants';
 import { NotificationService } from './../../core/services/notification.service';
 import { UrlConstants } from './../../core/common/url.constants';
 import { DataService } from './../../core/services/data.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { SystemContants } from '../../core/common/system.constants'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { parse } from 'url';
-
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
+
+
+
 export class ProductsComponent implements OnInit {
+
   @ViewChild('childModal') childModal: ModalDirective;
+
 
   constructor(private dataService: DataService, private _notificationService: NotificationService) { }
 
@@ -29,10 +33,12 @@ export class ProductsComponent implements OnInit {
   currentPage = 4;
   smallnumPages = 0;
 
+
   ngOnInit() {
     this.listProductCategory();
     this.listProduct();
   }
+
 
   editEntity(id: number) {
     this.model = {};
@@ -50,6 +56,10 @@ export class ProductsComponent implements OnInit {
         this.listProduct();
       }, error => this.dataService.handleError(error));
     });
+  }
+
+  keyupHandlerFunction(e: any) {
+    this.model.Content = e;
   }
 
   setPage(pageNo: number): void {
@@ -94,7 +104,7 @@ export class ProductsComponent implements OnInit {
 
   //submit for add or update
   onSubmit() {
-
+    console.log(this.model.Status)
     if (this.model.ID == null || this.model.ID == undefined) {
       this.dataService.post("/api/product/create/", JSON.stringify(this.model)).subscribe((response: any) => {
         this.hideChildModal();
@@ -109,7 +119,8 @@ export class ProductsComponent implements OnInit {
         this._notificationService.printSuccessMessage(MessageContstants.UPDATED_OK_MSG + " " + response.Name)
       }, error => this.dataService.handleError(error));
     }
-    
+
   }
+
 
 }

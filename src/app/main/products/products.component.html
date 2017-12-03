@@ -194,23 +194,16 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group">
-                          <div class="[ form-group ] col-md-9 col-sm-9 col-xs-12" >
-                              <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" autocomplete="off" />
-                              <div class="[ btn-group ] col-md-9 col-sm-9 col-xs-12">
-                                  <label for="fancy-checkbox-success" class="[ btn btn-success ]">
-                                      <span class="[ glyphicon glyphicon-ok ]"></span>
-                                      <span> </span>
-                                  </label>
-                                  <label for="fancy-checkbox-success" class="[ btn btn-default active ]">
-                                      Success Checkbox
-                                  </label>
-                              </div>
-                          </div>
-                      </div>
+                      <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="">
+                            Option one is this and that&mdash;be sure to include why it's great
+                          </label>
+                        </div>
                       
-
-
+                         
+                      
+                      
                     </tab>
                     <!--thông tin thêm-->
 
@@ -243,9 +236,11 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nội dung
                           <span class="required">*</span>
                         </label>
+
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="content" name="content" [(ngModel)]="model.Content" class="form-control col-md-7 col-xs-12">
+                          <app-tity-mce [elementId]="'my-editor-id'" (onEditorKeyup)="keyupHandlerFunction($event)"></app-tity-mce>
                         </div>
+
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Bảo hành
