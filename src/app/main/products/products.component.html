@@ -145,16 +145,7 @@
                           <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" id="image" required name="image" [(ngModel)]="model.Images" minlength=2 class="form-control col-md-7 col-xs-12"
-                            #image="ngModel">
-                          <div *ngIf="image.invalid && (image.dirty || image.touched)" class="alert alert-danger">
-                            <div *ngIf="image.errors.required">
-                              Không thấy đường dẫn ảnh
-                            </div>
-                            <div *ngIf="image.errors.minlength">
-                              Tên phải tối thiểu là 2 ký tự
-                            </div>
-                          </div>
+                          <input type="file" id="image" name="image" [(ngModel)]="model.Images" minlength=2 class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -194,7 +185,12 @@
                           </div>
                         </div>
                       </div>
-                     
+                      <amexio-toggle></amexio-toggle>
+
+                      
+
+
+
                     </tab>
                     <!--thông tin thêm-->
 

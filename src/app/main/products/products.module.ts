@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './products.component';
 import { FormsModule } from '@angular/forms';
-
+import { AmexioWidgetModule } from 'amexio-ng-extensions';
 
 export const productRoute: Routes = [
   { path: '', component: ProductsComponent }
@@ -18,6 +18,7 @@ export const productRoute: Routes = [
     FormsModule,
     ModalModule,
     TabsModule,
+    AmexioWidgetModule
 
 
    
