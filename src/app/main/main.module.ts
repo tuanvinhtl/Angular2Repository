@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AuthenService } from '../core/services/authen.service';
 import { DataService } from '../core/services/data.service';
 import {FormsModule} from '@angular/forms';
+import { UploadService } from '../core/services/upload.service';
 
 @NgModule({
   imports: [
@@ -17,9 +18,9 @@ import {FormsModule} from '@angular/forms';
     RouterModule.forChild(mainRoutes),
     HttpModule,
     FormsModule,
-
+    
   ],
   declarations: [MainComponent],
-  providers:[UtilityService,AuthenService,DataService,NotificationService]
+  providers:[UtilityService,AuthenService,DataService,NotificationService,UploadService]
 })
 export class MainModule { }

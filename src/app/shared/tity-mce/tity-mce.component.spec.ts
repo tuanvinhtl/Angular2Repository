@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TityMceComponent } from './tity-mce.component';
 
 describe('TityMceComponent', () => {

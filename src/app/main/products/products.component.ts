@@ -1,12 +1,13 @@
+import { SystemContants } from './../../core/common/system.constants';
 import { Response } from '@angular/http';
 import { MessageContstants } from './../../core/common/message.constants';
 import { NotificationService } from './../../core/services/notification.service';
 import { UrlConstants } from './../../core/common/url.constants';
 import { DataService } from './../../core/services/data.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { SystemContants } from '../../core/common/system.constants'
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { parse } from 'url';
+import { UploadService } from '../../core/services/upload.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -18,9 +19,9 @@ import { parse } from 'url';
 export class ProductsComponent implements OnInit {
 
   @ViewChild('childModal') childModal: ModalDirective;
+  @ViewChild('image') image;
 
-
-  constructor(private dataService: DataService, private _notificationService: NotificationService) { }
+  constructor(private dataService: DataService, private _notificationService: NotificationService ,private uploadservice:UploadService) { }
 
   private data = [];
   private pageIndex: number = 0;
@@ -32,6 +33,7 @@ export class ProductsComponent implements OnInit {
   totalItems = 64;
   currentPage = 4;
   smallnumPages = 0;
+  public urlApi :string=SystemContants.BASE_API;
 
 
   ngOnInit() {
@@ -47,6 +49,11 @@ export class ProductsComponent implements OnInit {
       this.showChildModal();
 
     }, error => this.dataService.handleError(error))
+  }
+
+
+  Changes($event){
+    this.model.Status=$event;
   }
 
   deteleEntity(id: string) {
@@ -71,6 +78,9 @@ export class ProductsComponent implements OnInit {
 
   }
 
+  cancel(){
+    this.hideChildModal()
+  }
 
   hideChildModal(): void {
     this.childModal.hide();
@@ -104,7 +114,20 @@ export class ProductsComponent implements OnInit {
 
   //submit for add or update
   onSubmit() {
-    console.log(this.model.Status)
+    let fi=this.image.nativeElement;
+    if(fi.files.length>0){
+      this.uploadservice.postWithFile("/api/upload/saveImage/",null,fi.files).then((imageUrl:string)=>{
+        this.model.Images=imageUrl;
+      }).then(()=>{
+        this.saveData();
+      })
+    }
+    else{
+      this.saveData();
+    }
+    console.log(fi)
+  }
+  saveData(){
     if (this.model.ID == null || this.model.ID == undefined) {
       this.dataService.post("/api/product/create/", JSON.stringify(this.model)).subscribe((response: any) => {
         this.hideChildModal();
@@ -119,8 +142,9 @@ export class ProductsComponent implements OnInit {
         this._notificationService.printSuccessMessage(MessageContstants.UPDATED_OK_MSG + " " + response.Name)
       }, error => this.dataService.handleError(error));
     }
-
   }
+
+
 
 
 }
