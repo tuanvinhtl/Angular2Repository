@@ -43,6 +43,7 @@ export class DataService {
     newHeader.append("Authorization", "bearer" + this._authenService.getLoggedInUser().access_token);
     return this._http.post(SystemContants.BASE_API + uri, data, { headers: newHeader }).map(this.extractData);
   }
+  
   private extractData(res: Response) {
     let body = res.json();
     return body || {}
