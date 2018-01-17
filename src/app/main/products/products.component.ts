@@ -21,7 +21,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('image') image;
 
-  constructor(private dataService: DataService, private _notificationService: NotificationService ,private uploadservice:UploadService) { }
+  constructor(private dataService: DataService, private _notificationService: NotificationService, private uploadservice: UploadService) { }
 
   private data = [];
   private pageIndex: number = 0;
@@ -33,7 +33,7 @@ export class ProductsComponent implements OnInit {
   totalItems = 64;
   currentPage = 4;
   smallnumPages = 0;
-  public urlApi :string=SystemContants.BASE_API;
+  public urlApi: string = SystemContants.BASE_API;
 
 
   ngOnInit() {
@@ -52,8 +52,16 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  Changes($event){
-    this.model.Status=$event;
+  Changes($event) {
+    this.model.Status = $event;
+  }
+
+
+  exportExcel(id: number) {
+    this.dataService.get("/api/product/export/" + id).subscribe((response: any) => {
+      window.open(SystemContants.BASE_API + response.Message)
+
+    }, error => this.dataService.handleError(error))
   }
 
   deteleEntity(id: string) {
@@ -78,7 +86,7 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  cancel(){
+  cancel() {
     this.hideChildModal()
   }
 
@@ -114,20 +122,20 @@ export class ProductsComponent implements OnInit {
 
   //submit for add or update
   onSubmit() {
-    let fi=this.image.nativeElement;
-    if(fi.files.length>0){
-      this.uploadservice.postWithFile("/api/upload/saveImage/",null,fi.files).then((imageUrl:string)=>{
-        this.model.Images=imageUrl;
-      }).then(()=>{
+    let fi = this.image.nativeElement;
+    if (fi.files.length > 0) {
+      this.uploadservice.postWithFile("/api/upload/saveImage/", null, fi.files).then((imageUrl: string) => {
+        this.model.Images = imageUrl;
+      }).then(() => {
         this.saveData();
       })
     }
-    else{
+    else {
       this.saveData();
     }
     console.log(fi)
   }
-  saveData(){
+  saveData() {
     if (this.model.ID == null || this.model.ID == undefined) {
       this.dataService.post("/api/product/create/", JSON.stringify(this.model)).subscribe((response: any) => {
         this.hideChildModal();
