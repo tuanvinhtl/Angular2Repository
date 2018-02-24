@@ -1,48 +1,197 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Loại Sản Phẩm <small>Nhìn tổng quan</small></h2>
+      <h2>Loại Sản Phẩm
+        <small>Nhìn tổng quan</small>
+      </h2>
       <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+        <li>
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <i class="fa fa-wrench"></i>
+          </a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Settings 1</a>
+            <li>
+              <a href="#">Settings 1</a>
             </li>
-            <li><a href="#">Settings 2</a>
+            <li>
+              <a href="#">Settings 2</a>
             </li>
           </ul>
         </li>
-        <li><a class="close-link"><i class="fa fa-close"></i></a>
+        <li>
+          <a class="close-link">
+            <i class="fa fa-close"></i>
+          </a>
         </li>
       </ul>
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-
+      <button type="button" class="btn btn-round btn btn-primary btn pull-right" (click)="showChildModal()">Thêm Mới</button>
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Tên Sản Phẩm</th>
-            <th>Giá</th>
-            <th>Số Lượng</th>
+            <th>Tên Danh Mục</th>
+            <th>Hiển Thị Thứ Tự</th>
             <th>Trạng Thái</th>
+            <th>#</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor= "let product of data" >
-            <th scope="row">{{product.ID}}</th>
-            <td>{{product.Name}}</td>
-            <td>{{product.Price}}</td>
-            <td>{{product.Quantity}}</td>
-            <td>{{product.Status}}</td>
+          <tr *ngFor="let productCategory of productCategories">
+            <th scope="row">{{productCategory.ID}}</th>
+            <td>{{productCategory.Name}}</td>
+            <td>{{productCategory.Descryption}}</td>
+            <td>{{productCategory.Status}}</td>
+            <td>
+              <button type="button" class="btn btn-round btn btn-primary btn-sm" (click)="editEntity(productCategory.ID)">Sửa</button>
+              <button type="button" class="btn btn-round btn btn-danger btn-sm" (click)="deteleEntity(productCategory.ID)">Xóa</button>
+            </td>
           </tr>
         </tbody>
-        
+
       </table>
 
+      <div class="row">
+        <div class="col-xs-12 col-12">
+          <pagination [boundaryLinks]="true" [totalItems]="totalRow" (pageChanged)="pageChanged($event)" [(ngModel)]="pageIndex" [itemsPerPage]="pageSize"
+            class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!--this is embed of the model-->\
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="hideChildModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_content">
+              <br />
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" novalidate #formModel="ngForm" (ngSubmit)="onSubmit()">
+                <div>
+
+                  <!--thông tin basic-->
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tên SP
+                      <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" id="name" required name="name" minlength=4 maxlength=100 [(ngModel)]="model.Name" class="form-control col-md-7 col-xs-12"
+                        #name="ngModel">
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                        <div *ngIf="name.errors.required">
+                          Tên phải được nhập
+                        </div>
+                        <div *ngIf="name.errors.minlength">
+                          Tên phải tối thiểu là 4 ký tự
+                        </div>
+                        <div *ngIf="name.errors.maxlenght">
+                          Tên phải dưới 100 ký tự
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Alias
+                      <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" id="alias" required name="alias" [(ngModel)]="model.Alias" minlength=4 class="form-control col-md-7 col-xs-12"
+                        #alias="ngModel">
+                      <div *ngIf="alias.invalid && (alias.dirty || alias.touched)" class="alert alert-danger">
+                        <div *ngIf="alias.errors.required">
+                          Alias phải được nhập
+                        </div>
+                        <div *ngIf="alias.errors.minlength">
+                          Alias phải tối thiểu là 4 ký tự
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Chọn danh mục</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <select class="form-control" [(ngModel)]="model.CategoryID" name="categoryId" #categoryId="ngModel" required>
+                        <option *ngFor="let item of productCategories" [ngValue]="item.ID">{{item.Name}}</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Giá
+                      <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" id="price" required name="price" [(ngModel)]="model.Price" class="form-control col-md-7 col-xs-12" #price="ngModel">
+                      <div *ngIf="price.invalid && (price.dirty || price.touched)" class="alert alert-danger">
+                        <div *ngIf="price.errors.required">
+                          Giá phải được nhập
+                        </div>
+                        <div *ngIf="price.errors.minlength">
+                          Giá phải tối thiểu là 4 ký tự
+                        </div>
+                        <div *ngIf="price.errors.maxlenght">
+                          Giá phải dưới 100 ký tự
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Số lượng
+                      <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" id="quantity" required name="quantity" [(ngModel)]="model.Quantity" maxlength=500 class="form-control col-md-7 col-xs-12"
+                        #quantity="ngModel">
+                      <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="alert alert-danger">
+                        <div *ngIf="quantity.errors.required">
+                          Số lượng phải được nhập
+                        </div>
+
+                        <div *ngIf="quantity.errors.maxlenght">
+                          Số lượng phải dưới 500
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button class="btn btn-primary" (click)="cancel()" type="button">Hủy</button>
+                    <button class="btn btn-defaul" type="reset">Reset</button>
+                    <button type="submit" class="btn btn-success" [disabled]="formModel.invalid">Cập nhật</button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

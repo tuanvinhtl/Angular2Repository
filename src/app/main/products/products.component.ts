@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { parse } from 'url';
 import { UploadService } from '../../core/services/upload.service';
+import { UtilityService } from '../../core/services/utility.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -21,7 +22,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild('image') image;
 
-  constructor(private dataService: DataService, private _notificationService: NotificationService, private uploadservice: UploadService) { }
+  constructor(private dataService: DataService, private _notificationService: NotificationService, private uploadservice: UploadService, private ultilityService: UtilityService) { }
 
   private data = [];
   private pageIndex: number = 0;
@@ -56,6 +57,10 @@ export class ProductsComponent implements OnInit {
     this.model.Status = $event;
   }
 
+
+  createAlias() {
+    this.model.Alias = this.ultilityService.MakeSeoTitle(this.model.Name);
+  }
 
   exportExcel(id: number) {
     this.dataService.get("/api/product/export/" + id).subscribe((response: any) => {
